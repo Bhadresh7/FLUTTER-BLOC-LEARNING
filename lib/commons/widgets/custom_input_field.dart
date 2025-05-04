@@ -4,12 +4,14 @@ class CustomInputField extends StatefulWidget {
   final String label;
   final bool isPassword;
   final TextEditingController? controller;
+  final String? Function(String?)? validator; // Added validator
 
   const CustomInputField({
     super.key,
     required this.label,
     this.isPassword = false,
     this.controller,
+    this.validator,
   });
 
   @override
@@ -27,9 +29,11 @@ class _CustomInputFieldState extends State<CustomInputField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      // Changed from TextField to TextFormField
       controller: widget.controller,
       obscureText: widget.isPassword ? _obscureText : false,
+      validator: widget.validator, // Added validator support
       decoration: InputDecoration(
         labelText: widget.label,
         border: const OutlineInputBorder(),

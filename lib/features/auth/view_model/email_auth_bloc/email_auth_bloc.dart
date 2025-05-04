@@ -21,8 +21,8 @@ class EmailAuthBloc extends Bloc<EmailAuthEvent, EmailAuthState> {
           EmailAuthSuccessState(successMessage: "Email created Successfully"),
         );
       } catch (e) {
-        emit(EmailAuthFailureState(errorMessage: e.toString()));
         emit(EmailAuthLoadingState(isLoading: false));
+        emit(EmailAuthFailureState(errorMessage: e.toString()));
       }
     });
   }

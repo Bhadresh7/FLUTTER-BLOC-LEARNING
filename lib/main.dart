@@ -1,18 +1,14 @@
-import 'package:bloc_demo_app/core/service/auth/email_auth_service.dart';
+import 'package:bloc_demo_app/core/locator/service_locator.dart';
+import 'package:bloc_demo_app/core/router/app_router.dart';
 import 'package:bloc_demo_app/features/auth/view_model/email_auth_bloc/email_auth_bloc.dart';
-import 'package:bloc_demo_app/features/splash/view/splash_view.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
 
-import 'firebase_options.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
+  await setUpLocator();
   // Hive setup
   await Hive.initFlutter();
   //auth box
@@ -27,10 +23,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => EmailAuthBloc(EmailAuthService())),
-      ],
-      child: MaterialApp(debugShowCheckedModeBanner: false, home: SplashView()),
+      //DI using getIt
+      providers: [BlocProvider(create: (context) => locator<EmailAuthBloc>())],
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: AppRouter.router,
+      ),
     );
   }
 }

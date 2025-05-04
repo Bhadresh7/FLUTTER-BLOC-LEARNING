@@ -1,5 +1,5 @@
-import 'package:bloc_demo_app/features/home/view/home_view.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 
 class SplashView extends StatefulWidget {
@@ -24,10 +24,9 @@ class _SplashViewState extends State<SplashView> {
     final authStatus = authBox.get('userAuthStatus', defaultValue: false);
 
     if (authStatus) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomeView()),
-      );
+      GoRouter.of(context).pushReplacementNamed("home");
+    } else {
+      GoRouter.of(context).pushReplacementNamed("authLogin");
     }
   }
 
